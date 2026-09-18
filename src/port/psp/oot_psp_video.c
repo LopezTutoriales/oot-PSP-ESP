@@ -151,10 +151,10 @@ void OotPspVideo_Init(const char* executablePath) {
         key = OotPspVideo_Trim(line);
         value = OotPspVideo_Trim(equals + 1);
 
-        if (OotPspVideo_StrIcmp(key, "output") == 0) {
+        if (OotPspVideo_StrIcmp(key, "salida") == 0) {
             sOotPspVideoOutput = (OotPspVideo_StrIcmp(value, "tv") == 0) ? OOT_PSP_VIDEO_OUTPUT_TV
                                                                           : OOT_PSP_VIDEO_OUTPUT_LCD;
-        } else if (OotPspVideo_StrIcmp(key, "resolution") == 0) {
+        } else if (OotPspVideo_StrIcmp(key, "resolucion") == 0) {
             if (OotPspVideo_StrIcmp(value, "480i") == 0) {
                 sOotPspVideoResolution = OOT_PSP_VIDEO_RESOLUTION_480I;
             } else if (OotPspVideo_StrIcmp(value, "240p") == 0) {
@@ -162,7 +162,7 @@ void OotPspVideo_Init(const char* executablePath) {
             } else {
                 sOotPspVideoResolution = OOT_PSP_VIDEO_RESOLUTION_480P;
             }
-        } else if (OotPspVideo_StrIcmp(key, "aspect") == 0) {
+        } else if (OotPspVideo_StrIcmp(key, "aspecto") == 0) {
             sOotPspVideoAspect = (OotPspVideo_StrIcmp(value, "4:3") == 0) ? OOT_PSP_VIDEO_ASPECT_4_3
                                                                           : OOT_PSP_VIDEO_ASPECT_16_9;
         }
@@ -195,7 +195,7 @@ int OotPspVideo_Save(void) {
     resolutionName = (sOotPspVideoResolution == OOT_PSP_VIDEO_RESOLUTION_480I)
                          ? "480i"
                          : ((sOotPspVideoResolution == OOT_PSP_VIDEO_RESOLUTION_240P) ? "240p" : "480p");
-    length = snprintf(buffer, sizeof(buffer), "[video]\noutput = %s\nresolution = %s\naspect = %s\n",
+    length = snprintf(buffer, sizeof(buffer), "[video]\nsalida = %s\nresolucion = %s\naspecto = %s\n",
                       (sOotPspVideoOutput == OOT_PSP_VIDEO_OUTPUT_TV) ? "tv" : "lcd", resolutionName,
                       (sOotPspVideoAspect == OOT_PSP_VIDEO_ASPECT_4_3) ? "4:3" : "16:9");
     if ((length < 0) || ((size_t)length >= sizeof(buffer))) {

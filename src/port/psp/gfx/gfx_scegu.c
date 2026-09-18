@@ -816,11 +816,11 @@ static void gfx_scegu_prepare_home_menu_draw(void) {
 static void gfx_scegu_render_home_menu_main(int selectedIndex, uint8_t highlightRed, uint8_t highlightGreen,
                                             uint8_t highlightBlue) {
     static const char *items[] = {
-        "Resume Game",
-        "Controller Mapping",
-        "Video Settings",
-        "About",
-        "Exit Game",
+        "Reanudar",
+        "Controles",
+        "Ajustes de Video",
+        "Acerca de",
+        "Salir del Juego",
     };
     int i;
 
@@ -920,28 +920,27 @@ static const char* const sHomeMenuAboutQrModules[HOME_MENU_ABOUT_QR_MODULE_COUNT
 };
 
 static const char* const sHomeMenuAboutLines[] = {
-    "A PlayStation Portable port",
-    "of The Legend of Zelda:",
-    "Ocarina of Time.",
-    "",
-    "Ported by Z2442 and the PSP",
-    "Homebrew community. Thank you!",
-    "To my faimily that put up with",
-    "me playing around with two decade",
-    "old handheld!",
-    "Everyone for all of your help",
-    "making this a reality.",
-    "I could not done this Alone.",
-    "",
-    "Special thanks:",
-    "Original SM64 Fast3d renderer: Mr.Neo240",
-    "R&D Team: M-CID and the PSP community",
-    "Daedalus Team: Wally, Re4thewin, Dreamer72",
-    "Discord Team: Mr. Iron, Acid_Snake, Krazynez",
-    "N64 Decompilation Team",
-    "",
-    "Scan the QR code to the right",
-    "to talk to the team on discord!",
+    "Un port para PSP de The Legend of",
+	"Zelda: Ocarina of Time.",
+	"",
+	"Portado por Z2442 y la comunidad",
+	"homebrew de PSP. Gracias!",
+	"A mi familia, que me aguanto mientras",
+	"trasteaba con una consola de hace dos",
+	"decadas!",
+	"A todos por su ayuda, haciendo esto",
+	"realidad. No podria haberlo hecho solo.",
+	"",
+	"Agradecimientos especiales:",
+	"Renderizador SM64 Fast3d: Mr.Neo240",
+	"I+D: M-CID y comunidad de PSP",
+	"Deadalus: Wally, Re4thewin, Dreamer72",
+	"Discord: Mr. Iron, Acid_Snake, Krazynez",
+	"Equipo de descompilacion de N64",
+	"Lopez Tutoriales: Mod en Español"
+	"",
+	"Escanea el QR de la derecha para hablar",
+	"con el equipo de Discord!",
 };
 
 static void gfx_scegu_draw_home_menu_about_qr(int x, int y) {
@@ -983,7 +982,7 @@ static void gfx_scegu_render_about(int scrollOffset) {
 
     gfx_scegu_draw_rect(0, 0, HOME_MENU_WIDTH, HOME_MENU_HEIGHT, gfx_scegu_rgba(0, 0, 0, 112));
     gfx_scegu_draw_rect(20, 20, 440, 232, gfx_scegu_rgba(0, 0, 0, 154));
-    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 54, "About", 0.82f, titleColor, shadowColor,
+    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 54, "Acerca de", 0.82f, titleColor, shadowColor,
                                   INTRAFONT_ALIGN_CENTER);
     gfx_scegu_draw_rect(282, 72, 1, 142, gfx_scegu_rgba(112, 132, 122, 180));
 
@@ -1000,7 +999,7 @@ static void gfx_scegu_render_about(int scrollOffset) {
     }
 
     gfx_scegu_draw_home_menu_about_qr(306, 82);
-    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 232, "Up/Down scroll  Circle, Cross, or Start: Back", 0.42f,
+    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 232, "Arriba/Abajo: Mover | Circulo, Equis o Start: Volver", 0.42f,
                                   hintColor, gfx_scegu_rgba(0, 0, 0, 160), INTRAFONT_ALIGN_CENTER);
 }
 
@@ -1028,11 +1027,11 @@ void gfx_scegu_render_first_boot_progress(uint32_t progressPermille, const char*
     gfx_scegu_draw_rect(34, 36, 412, 200, gfx_scegu_rgba(0, 0, 0, 154));
 
     gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 78,
-                                  error ? "Asset Setup Failed" : "Preparing Game Data",
+                                  error ? "Fallo al obtener recursos" : "Preparando recursos",
                                   0.84f, gfx_scegu_rgba(255, 255, 245, 255),
                                   gfx_scegu_rgba(0, 0, 0, 180), INTRAFONT_ALIGN_CENTER);
     gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 118,
-                                  (statusMessage != NULL) ? statusMessage : "Starting asset setup", 0.60f,
+                                  (statusMessage != NULL) ? statusMessage : "Iniciando conf. de recursos", 0.60f,
                                   statusColor, gfx_scegu_rgba(0, 0, 0, 180), INTRAFONT_ALIGN_CENTER);
 
     gfx_scegu_draw_rect(barX - 4, barY - 4, barWidth + 8, barHeight + 8, gfx_scegu_rgba(0, 0, 0, 180));
@@ -1047,7 +1046,7 @@ void gfx_scegu_render_first_boot_progress(uint32_t progressPermille, const char*
                                   gfx_scegu_rgba(255, 255, 245, 255), gfx_scegu_rgba(0, 0, 0, 180),
                                   INTRAFONT_ALIGN_CENTER);
     gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 222,
-                                  error ? "Check the ROM and restart" : "First launch only - do not power off",
+                                  error ? "Comprueba la ROM y reinicia" : "Solo primer inicio - NO APAGUES la PSP",
                                   0.48f, gfx_scegu_rgba(170, 190, 180, 255), gfx_scegu_rgba(0, 0, 0, 160),
                                   INTRAFONT_ALIGN_CENTER);
 }
@@ -1079,7 +1078,7 @@ static void gfx_scegu_render_controller_mapping(int selectedIndex, const char* s
 
     gfx_scegu_draw_rect(0, 0, HOME_MENU_WIDTH, HOME_MENU_HEIGHT, gfx_scegu_rgba(0, 0, 0, 112));
     gfx_scegu_draw_rect(34, 20, 412, 232, gfx_scegu_rgba(0, 0, 0, 154));
-    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 50, "Controller Mapping", 0.82f,
+    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 50, "Controles", 0.82f,
                                   gfx_scegu_rgba(255, 255, 245, 255), gfx_scegu_rgba(0, 0, 0, 180),
                                   INTRAFONT_ALIGN_CENTER);
 
@@ -1101,16 +1100,16 @@ static void gfx_scegu_render_controller_mapping(int selectedIndex, const char* s
                 OotPspControls_GetBindingValueText(row, value, sizeof(value));
                 snprintf(line, sizeof(line), "%s: %.32s", OotPspControls_GetBindingName(row), value);
             } else if (row == deadzoneRow) {
-                snprintf(line, sizeof(line), "Deadzone: %d", OotPspControls_GetDeadzone());
+                snprintf(line, sizeof(line), "Zona Muerta: %d", OotPspControls_GetDeadzone());
             } else if (row == n64StickScalingRow) {
-                snprintf(line, sizeof(line), "N64 Stick Scaling: %s",
-                         OotPspControls_IsN64StickScalingEnabled() ? "On" : "Off");
+                snprintf(line, sizeof(line), "Escalado Joystick N64: %s",
+                         OotPspControls_IsN64StickScalingEnabled() ? "Activado" : "Desactivado");
             } else if (row == saveRow) {
-                snprintf(line, sizeof(line), "Save controls.ini");
+                snprintf(line, sizeof(line), "Guardar controls.ini");
             } else if (row == resetRow) {
-                snprintf(line, sizeof(line), "Reset defaults");
+                snprintf(line, sizeof(line), "Restaurar Controles por Defecto");
             } else {
-                snprintf(line, sizeof(line), "Back");
+                snprintf(line, sizeof(line), "Volver");
             }
 
             gfx_scegu_draw_home_menu_text(70, y, line, 0.68f, color, gfx_scegu_rgba(0, 0, 0, 180),
@@ -1132,7 +1131,7 @@ static void gfx_scegu_render_controller_mapping(int selectedIndex, const char* s
                                           INTRAFONT_ALIGN_CENTER);
         } else {
             gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 242,
-                                          "Left/Right change  Cross select  Circle back", 0.48f,
+                                          "Izq/Der: Cambiar | Equis: Seleccionar | Circulo: Volver", 0.48f,
                                           gfx_scegu_rgba(170, 190, 180, 255), gfx_scegu_rgba(0, 0, 0, 160),
                                           INTRAFONT_ALIGN_CENTER);
         }
@@ -1140,9 +1139,9 @@ static void gfx_scegu_render_controller_mapping(int selectedIndex, const char* s
     }
 #endif
 
-    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 116, "Controller Mapping", 4,
+    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 116, "Controles", 4,
                                           gfx_scegu_rgba(255, 255, 245, 255));
-    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 158, "Back", 4,
+    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 158, "Volver", 4,
                                           gfx_scegu_rgba(218, 224, 218, 255));
 }
 
@@ -1153,7 +1152,7 @@ static void gfx_scegu_render_video_settings(int selectedIndex, const char* statu
 
     gfx_scegu_draw_rect(0, 0, HOME_MENU_WIDTH, HOME_MENU_HEIGHT, gfx_scegu_rgba(0, 0, 0, 112));
     gfx_scegu_draw_rect(34, 20, 412, 232, gfx_scegu_rgba(0, 0, 0, 154));
-    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 48, "Video Settings", 0.82f,
+    gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 48, "Ajustes de Video", 0.82f,
                                   gfx_scegu_rgba(255, 255, 245, 255), gfx_scegu_rgba(0, 0, 0, 180),
                                   INTRAFONT_ALIGN_CENTER);
 
@@ -1171,25 +1170,25 @@ static void gfx_scegu_render_video_settings(int selectedIndex, const char* statu
 
             switch (row) {
                 case 0:
-                    snprintf(line, sizeof(line), "Output: %s", OotPspVideo_GetOutputName());
+                    snprintf(line, sizeof(line), "Salida: %s", OotPspVideo_GetOutputName());
                     break;
                 case 1:
-                    snprintf(line, sizeof(line), "Resolution: %s", OotPspVideo_GetResolutionName());
+                    snprintf(line, sizeof(line), "Resolucion: %s", OotPspVideo_GetResolutionName());
                     break;
                 case 2:
-                    snprintf(line, sizeof(line), "Aspect Ratio: %s", OotPspVideo_GetAspectName());
+                    snprintf(line, sizeof(line), "Relacion de Aspecto: %s", OotPspVideo_GetAspectName());
                     break;
                 case 3:
-                    snprintf(line, sizeof(line), "Apply video mode");
+                    snprintf(line, sizeof(line), "Aplicar modo de video");
                     break;
                 case 4:
-                    snprintf(line, sizeof(line), "Save video.ini");
+                    snprintf(line, sizeof(line), "Guardar video.ini");
                     break;
                 case 5:
-                    snprintf(line, sizeof(line), "Reset defaults");
+                    snprintf(line, sizeof(line), "Restablecer Valores por Defecto");
                     break;
                 default:
-                    snprintf(line, sizeof(line), "Back");
+                    snprintf(line, sizeof(line), "Volver");
                     break;
             }
 
@@ -1202,12 +1201,12 @@ static void gfx_scegu_render_video_settings(int selectedIndex, const char* statu
                                           gfx_scegu_rgba(170, 190, 180, 255), gfx_scegu_rgba(0, 0, 0, 160),
                                           INTRAFONT_ALIGN_CENTER);
         } else if (!OotPspVideo_IsTvAvailable()) {
-            gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 242, "TV output requires a Slim and video cable",
+            gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 242, "Salida de TV requiere una PSP Slim y cable de video",
                                           0.48f, gfx_scegu_rgba(170, 190, 180, 255),
                                           gfx_scegu_rgba(0, 0, 0, 160), INTRAFONT_ALIGN_CENTER);
         } else {
             gfx_scegu_draw_home_menu_text(HOME_MENU_WIDTH / 2, 242,
-                                          "Left/Right change  Cross select  Circle back", 0.48f,
+                                          "Izq/Der Cambiar | Equis: Seleccionar | Circulo: Volver", 0.48f,
                                           gfx_scegu_rgba(170, 190, 180, 255), gfx_scegu_rgba(0, 0, 0, 160),
                                           INTRAFONT_ALIGN_CENTER);
         }
@@ -1215,9 +1214,9 @@ static void gfx_scegu_render_video_settings(int selectedIndex, const char* statu
     }
 #endif
 
-    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 116, "Video Settings", 4,
+    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 116, "Ajustes de Video", 4,
                                           gfx_scegu_rgba(255, 255, 245, 255));
-    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 158, "Back", 4,
+    gfx_scegu_draw_fallback_text_centered(HOME_MENU_WIDTH / 2, 158, "Volver", 4,
                                           gfx_scegu_rgba(218, 224, 218, 255));
 }
 
@@ -2009,7 +2008,7 @@ static void gfx_scegu_init(void) {
     }
     if (!texman_buffer) {
         char msg[32];
-        sprintf(msg, "OUT OF MEMORY!\n");
+        sprintf(msg, "FUERA DE MEMORIA!\n");
         sceIoWrite(1, msg, strlen(msg));
 
         sceKernelExitGame();

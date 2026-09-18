@@ -696,10 +696,10 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
     static u8 pressStartFontIndices[] = {
 #if !PLATFORM_IQUE
         FILENAME_UPPERCASE('P'),
-        FILENAME_UPPERCASE('R'),
-        FILENAME_UPPERCASE('E'),
+        FILENAME_UPPERCASE('U'),
+        FILENAME_UPPERCASE('L'),
         FILENAME_UPPERCASE('S'),
-        FILENAME_UPPERCASE('S'),
+        FILENAME_UPPERCASE('A'),
 #endif
         FILENAME_UPPERCASE('S'),
         FILENAME_UPPERCASE('T'),
@@ -1014,6 +1014,41 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
             rectLeft += YREG(8);
         }
 #endif
+
+        // Draw "Mod en Espanol por Lopez Tutoriales" credit (small, bottom-left, same screen as PULSA START)
+        {
+            static u8 creditFontIndices[] = {
+                FILENAME_UPPERCASE('M'), FILENAME_UPPERCASE('O'), FILENAME_UPPERCASE('D'), FILENAME_SPACE,
+                FILENAME_UPPERCASE('E'), FILENAME_UPPERCASE('N'), FILENAME_SPACE,
+                FILENAME_UPPERCASE('E'), FILENAME_UPPERCASE('S'), FILENAME_UPPERCASE('P'), FILENAME_UPPERCASE('A'),
+                FILENAME_UPPERCASE('N'), FILENAME_UPPERCASE('O'), FILENAME_UPPERCASE('L'), FILENAME_SPACE,
+                FILENAME_UPPERCASE('P'), FILENAME_UPPERCASE('O'), FILENAME_UPPERCASE('R'), FILENAME_SPACE,
+                FILENAME_UPPERCASE('L'), FILENAME_UPPERCASE('O'), FILENAME_UPPERCASE('P'), FILENAME_UPPERCASE('E'),
+                FILENAME_UPPERCASE('Z'), FILENAME_SPACE,
+                FILENAME_UPPERCASE('T'), FILENAME_UPPERCASE('U'), FILENAME_UPPERCASE('T'), FILENAME_UPPERCASE('O'),
+                FILENAME_UPPERCASE('R'), FILENAME_UPPERCASE('I'), FILENAME_UPPERCASE('A'), FILENAME_UPPERCASE('L'),
+                FILENAME_UPPERCASE('E'), FILENAME_UPPERCASE('S'),
+            };
+            s16 creditScaleBackup = YREG(1);
+            s32 creditRectLeft = 4;
+            s32 creditCharSpacing;
+
+            YREG(1) = 50; // bigger than before; adjust up/down to taste
+            creditCharSpacing = (s32)(16.0f * (YREG(1) / 100.0f)) + 1;
+
+            gDPPipeSync(gfx++);
+            gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                              PRIMITIVE, 0);
+            gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 160);
+
+            for (i = 0; i < ARRAY_COUNT(creditFontIndices); i++) {
+                EnMag_DrawCharTexture(&gfx, font->fontBuf + creditFontIndices[i] * FONT_CHAR_TEX_SIZE, creditRectLeft,
+                                      210);
+                creditRectLeft += creditCharSpacing;
+            }
+
+            YREG(1) = creditScaleBackup; // restore normal scale for anything drawn after this
+        }
     }
 
     if (textFadeDirection != 0) {

@@ -15,7 +15,7 @@
 #define OOT_PSP_PACKED_ASSET_PATH          "data/segments/oot_psp_assets.bin"
 #define OOT_PSP_PACKED_ASSET_TEMP_PATH     "data/segments/oot_psp_assets.tmp"
 #define OOT_PSP_ROM_SIZE                   0x02000000U
-#define OOT_PSP_ROM_CRC32                  0xCD16C529U
+#define OOT_PSP_ROM_CRC32                  0x1B2D9E84
 #define OOT_PSP_DMADATA_OFFSET             0x7430U
 #define OOT_PSP_DMADATA_COUNT              1510U
 #define OOT_PSP_TRANSFORM_ZERO_SELECTOR    56U
@@ -168,18 +168,18 @@ static s32 OotPspAssetBuilder_ValidateRom(SceUID fd) {
 
     if ((size < 0) || ((u32)size != OOT_PSP_ROM_SIZE) || !OotPspAssetBuilder_ReadAt(fd, 0, header, sizeof(header)) ||
         (memcmp(header, expectedHeader, sizeof(header)) != 0)) {
-        OotPspAssetBuilder_ShowError("NTSC 1.0 z64 ROM required");
+        OotPspAssetBuilder_ShowError("ROM NTSC 1.0 z64 requerida");
         return false;
     }
 
     buffer = malloc(OOT_PSP_IO_CHUNK_SIZE);
     if (buffer == NULL) {
-        OotPspAssetBuilder_ShowError("Not enough memory to validate ROM");
+        OotPspAssetBuilder_ShowError("Memoria insuficiente para validar ROM");
         return false;
     }
     if (sceIoLseek32(fd, 0, PSP_SEEK_SET) < 0) {
         free(buffer);
-        OotPspAssetBuilder_ShowError("Could not read the ROM");
+        OotPspAssetBuilder_ShowError("No se puede leer la ROM");
         return false;
     }
     while (remaining != 0) {
@@ -188,7 +188,7 @@ static s32 OotPspAssetBuilder_ValidateRom(SceUID fd) {
 
         if (read <= 0) {
             free(buffer);
-            OotPspAssetBuilder_ShowError("Could not read the ROM");
+            OotPspAssetBuilder_ShowError("No se puede leer la ROM");
             return false;
         }
         crc = crc32(crc, buffer, read);
@@ -197,14 +197,14 @@ static s32 OotPspAssetBuilder_ValidateRom(SceUID fd) {
         if (((processed & 0xFFFFF) == 0) || (remaining == 0)) {
             char status[64];
 
-            snprintf(status, sizeof(status), "Validating ROM: %lu / 32 MB", (unsigned long)(processed >> 20));
+            snprintf(status, sizeof(status), "Validando ROM: %lu / 32 MB", (unsigned long)(processed >> 20));
             OotPspAssetBuilder_ShowProgress((u32)((processed * 100) / OOT_PSP_ROM_SIZE), status);
         }
     }
     free(buffer);
 
     if ((u32)crc != OOT_PSP_ROM_CRC32) {
-        OotPspAssetBuilder_ShowError("ROM checksum failed - NTSC 1.0 required");
+        OotPspAssetBuilder_ShowError("checksum de ROM fallo - Requerido NTSC 1.0");
         return false;
     }
     return true;
@@ -460,15 +460,15 @@ static s32 OotPspAssetBuilder_Build(SceUID romFd, const char* outputPath, const 
     s32 ok = false;
 
     if ((compressedSize < 12) || (memcmp(compressed, "OPZ4", 4) != 0)) {
-        OotPspAssetBuilder_ShowError("Conversion data is missing");
+        OotPspAssetBuilder_ShowError("Faltan datos de conversion");
         return false;
     }
-    OotPspAssetBuilder_ShowProgress(100, "Preparing conversion data");
+    OotPspAssetBuilder_ShowProgress(100, "Preparando datos de conversion");
     manifestEntryCount = OotPspAssetBuilder_ReadLe32(compressed + 4);
     permutationCount = OotPspAssetBuilder_ReadLe32(compressed + 8);
     if ((permutationCount != OOT_PSP_TRANSFORM_ZERO_SELECTOR) ||
         (compressedSize < 12 + (permutationCount * 8))) {
-        OotPspAssetBuilder_ShowError("Conversion data is incompatible");
+        OotPspAssetBuilder_ShowError("Datos de conversion incompatibles");
         return false;
     }
     permutations = compressed + 12;
@@ -477,18 +477,18 @@ static s32 OotPspAssetBuilder_Build(SceUID romFd, const char* outputPath, const 
 
     dmaEntries = malloc(sizeof(*dmaEntries) * OOT_PSP_DMADATA_COUNT);
     if (dmaEntries == NULL) {
-        OotPspAssetBuilder_ShowError("Not enough memory for asset setup");
+        OotPspAssetBuilder_ShowError("Memoria insuficiente para conf. recursos");
         goto cleanup;
     }
 
     if (!OotPspAssetBuilder_LoadDmaTable(romFd, dmaEntries)) {
-        OotPspAssetBuilder_ShowError("Could not read the ROM file table");
+        OotPspAssetBuilder_ShowError("Imposible leer tabla de la ROM");
         goto cleanup;
     }
     sceIoRemove(tempPath);
     outputFd = sceIoOpen(tempPath, PSP_O_WRONLY | PSP_O_CREAT | PSP_O_TRUNC, 0777);
     if (outputFd < 0) {
-        OotPspAssetBuilder_ShowError("Could not create the asset file");
+        OotPspAssetBuilder_ShowError("Imposible crear archivo de recursos");
         goto cleanup;
     }
 
@@ -500,14 +500,14 @@ static s32 OotPspAssetBuilder_Build(SceUID romFd, const char* outputPath, const 
         char status[64];
 
         if ((assetIndex & 7) == 0) {
-            snprintf(status, sizeof(status), "Converting assets: %lu / %lu", (unsigned long)assetIndex,
+            snprintf(status, sizeof(status), "Convirtiendo recursos: %lu / %lu", (unsigned long)assetIndex,
                      (unsigned long)gOotPspExternalAssetCount);
             OotPspAssetBuilder_ShowProgress(
                 100 + (u32)((assetIndex * 900) / gOotPspExternalAssetCount), status);
         }
 
         if ((dma == NULL) || ((dma->vromEnd - dma->vromStart) != assetSize)) {
-            snprintf(status, sizeof(status), "Could not extract %.36s", asset->name);
+            snprintf(status, sizeof(status), "Imposible extraer %.36s", asset->name);
             OotPspAssetBuilder_ShowError(status);
             goto cleanup;
         }
@@ -515,12 +515,12 @@ static s32 OotPspAssetBuilder_Build(SceUID romFd, const char* outputPath, const 
         if ((asset->flags == 0) && (dma->romEnd == 0)) {
             if (!OotPspAssetBuilder_CopyUncompressedAsset(romFd, outputFd, dma->romStart, asset->fileOffset,
                                                            assetSize)) {
-                OotPspAssetBuilder_ShowError("Could not copy data from the ROM");
+                OotPspAssetBuilder_ShowError("Imposible copiar datos de la ROM");
                 goto cleanup;
             }
         } else {
             if (!OotPspAssetBuilder_LoadAsset(romFd, dma, &data, assetSize)) {
-                snprintf(status, sizeof(status), "Could not extract %.36s", asset->name);
+                snprintf(status, sizeof(status), "Imposible extraer %.36s", asset->name);
                 OotPspAssetBuilder_ShowError(status);
                 free(data);
                 goto cleanup;
@@ -528,13 +528,13 @@ static s32 OotPspAssetBuilder_Build(SceUID romFd, const char* outputPath, const 
             if ((asset->flags != 0) &&
                 !OotPspAssetBuilder_TransformAsset(data, assetSize, assetIndex, &manifestCursor, manifestEnd,
                                                    permutations, permutationCount)) {
-                snprintf(status, sizeof(status), "Could not convert %.36s", asset->name);
+                snprintf(status, sizeof(status), "Imposible convertir %.36s", asset->name);
                 OotPspAssetBuilder_ShowError(status);
                 free(data);
                 goto cleanup;
             }
             if (!OotPspAssetBuilder_WriteAt(outputFd, asset->fileOffset, data, assetSize)) {
-                OotPspAssetBuilder_ShowError("Could not write the asset file");
+                OotPspAssetBuilder_ShowError("Imposible crear archivo de recursos");
                 free(data);
                 goto cleanup;
             }
@@ -542,20 +542,20 @@ static s32 OotPspAssetBuilder_Build(SceUID romFd, const char* outputPath, const 
         }
         nativeSeen += asset->flags != 0;
         if ((assetIndex + 1) == gOotPspExternalAssetCount) {
-            snprintf(status, sizeof(status), "Converting assets: %lu / %lu", (unsigned long)(assetIndex + 1),
+            snprintf(status, sizeof(status), "Convirtiendo recursos: %lu / %lu", (unsigned long)(assetIndex + 1),
                      (unsigned long)gOotPspExternalAssetCount);
             OotPspAssetBuilder_ShowProgress(1000, status);
         }
     }
     if ((nativeSeen != manifestEntryCount) || (manifestCursor != manifestEnd)) {
-        OotPspAssetBuilder_ShowError("Conversion data did not match the ROM");
+        OotPspAssetBuilder_ShowError("Datos convertidos no coinciden con la ROM");
         goto cleanup;
     }
     sceIoClose(outputFd);
     outputFd = -1;
     sceIoRemove(outputPath);
     if (sceIoRename(tempPath, outputPath) < 0) {
-        OotPspAssetBuilder_ShowError("Could not finish the asset file");
+        OotPspAssetBuilder_ShowError("Imposible finalizar archivo de recursos");
         goto cleanup;
     }
     ok = true;
@@ -595,7 +595,7 @@ s32 OotPspAssetBuilder_Ensure(void) {
 
     sOotPspAssetBuilderProgress = 0;
     sOotPspAssetBuilderErrorShown = false;
-    OotPspAssetBuilder_ShowProgress(0, "Checking NTSC 1.0 ROM");
+    OotPspAssetBuilder_ShowProgress(0, "Comprobando ROM NTSC 1.0");
 
     directoryPath = OotPsp_ResolveRootPath("data", directoryBuffer, sizeof(directoryBuffer));
     sceIoMkdir(directoryPath, 0777);
@@ -604,18 +604,18 @@ s32 OotPspAssetBuilder_Ensure(void) {
 
     romFd = OotPspAssetBuilder_OpenRom(romBuffer, sizeof(romBuffer));
     if (romFd < 0) {
-        OotPspAssetBuilder_ShowError("ROM not found at data/basrom.z64");
+        OotPspAssetBuilder_ShowError("ROM no encontrada en data/baserom.z64");
         sceKernelDelayThread(3000000);
         return false;
     }
     ok = OotPspAssetBuilder_ValidateRom(romFd) && OotPspAssetBuilder_Build(romFd, outputPath, tempPath);
     sceIoClose(romFd);
     if (ok) {
-        OotPspAssetBuilder_ShowProgress(1000, "Asset setup complete");
+        OotPspAssetBuilder_ShowProgress(1000, "Configuracion de recursos completada");
         sceKernelDelayThread(250000);
     } else {
         if (!sOotPspAssetBuilderErrorShown) {
-            OotPspAssetBuilder_ShowError("Asset setup failed");
+            OotPspAssetBuilder_ShowError("Configuraciond de recursos fallo");
         }
         sceKernelDelayThread(3000000);
     }

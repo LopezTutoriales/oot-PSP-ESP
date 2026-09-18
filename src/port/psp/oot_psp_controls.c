@@ -26,36 +26,36 @@ typedef struct OotPspN64Action {
 } OotPspN64Action;
 
 static OotPspButtonBinding sButtonBindings[] = {
-    { "cross", "Cross", PSP_CTRL_CROSS, BTN_A, BTN_A },
-    { "circle", "Circle", PSP_CTRL_CIRCLE, BTN_B, BTN_B },
-    { "triangle", "Triangle", PSP_CTRL_TRIANGLE, BTN_CUP, BTN_CUP },
-    { "square", "Square", PSP_CTRL_SQUARE, BTN_CLEFT, BTN_CLEFT },
-    { "ltrigger", "L Trigger", PSP_CTRL_LTRIGGER, BTN_Z, BTN_Z },
-    { "rtrigger", "R Trigger", PSP_CTRL_RTRIGGER, BTN_R, BTN_R },
+    { "equis", "Equis", PSP_CTRL_CROSS, BTN_A, BTN_A },
+    { "circulo", "Circulo", PSP_CTRL_CIRCLE, BTN_B, BTN_B },
+    { "triangulo", "Triangulo", PSP_CTRL_TRIANGLE, BTN_CUP, BTN_CUP },
+    { "cuadrado", "Cuadrado", PSP_CTRL_SQUARE, BTN_CLEFT, BTN_CLEFT },
+    { "gatillol", "Gatillo L", PSP_CTRL_LTRIGGER, BTN_Z, BTN_Z },
+    { "gatillor", "Gatillo R", PSP_CTRL_RTRIGGER, BTN_R, BTN_R },
     { "start", "Start", PSP_CTRL_START, BTN_START, BTN_START },
     { "select", "Select", PSP_CTRL_SELECT, BTN_L, BTN_L },
-    { "up", "D-Pad Up", PSP_CTRL_UP, BTN_CUP, BTN_CUP },
-    { "down", "D-Pad Down", PSP_CTRL_DOWN, BTN_CDOWN, BTN_CDOWN },
-    { "left", "D-Pad Left", PSP_CTRL_LEFT, BTN_CLEFT, BTN_CLEFT },
-    { "right", "D-Pad Right", PSP_CTRL_RIGHT, BTN_CRIGHT, BTN_CRIGHT },
+    { "arriba", "D-Pad Arriba", PSP_CTRL_UP, BTN_CUP, BTN_CUP },
+    { "abajo", "D-Pad Abajo", PSP_CTRL_DOWN, BTN_CDOWN, BTN_CDOWN },
+    { "izquierda", "D-Pad Izquierda", PSP_CTRL_LEFT, BTN_CLEFT, BTN_CLEFT },
+    { "derecha", "D-Pad Derecha", PSP_CTRL_RIGHT, BTN_CRIGHT, BTN_CRIGHT },
 };
 
 static const OotPspN64Action sN64Actions[] = {
-    { "none", "None", 0 },
+    { "nada", "Nada", 0 },
     { "A", "A", BTN_A },
     { "B", "B", BTN_B },
     { "Z", "Z", BTN_Z },
     { "Start", "Start", BTN_START },
-    { "D-Up", "D-Up", BTN_DUP },
-    { "D-Down", "D-Down", BTN_DDOWN },
-    { "D-Left", "D-Left", BTN_DLEFT },
-    { "D-Right", "D-Right", BTN_DRIGHT },
+    { "D-Arriba", "D-Arriba", BTN_DUP },
+    { "D-Abajo", "D-Abajo", BTN_DDOWN },
+    { "D-Izquierda", "D-Izquierda", BTN_DLEFT },
+    { "D-Derecha", "D-Derecha", BTN_DRIGHT },
     { "L", "L", BTN_L },
     { "R", "R", BTN_R },
-    { "C-Up", "C-Up", BTN_CUP },
-    { "C-Down", "C-Down", BTN_CDOWN },
-    { "C-Left", "C-Left", BTN_CLEFT },
-    { "C-Right", "C-Right", BTN_CRIGHT },
+    { "C-Arriba", "C-Arriba", BTN_CUP },
+    { "C-Abajo", "C-Abajo", BTN_CDOWN },
+    { "C-Izquierda", "C-Izquierda", BTN_CLEFT },
+    { "C-Derecha", "C-Derecha", BTN_CRIGHT },
 };
 
 static int sDeadzone;
@@ -316,7 +316,7 @@ s32 OotPspControls_Save(void) {
 
     OOT_PSP_CONTROLS_APPEND("\n[analog]\n");
     OOT_PSP_CONTROLS_APPEND("deadzone = %d\n", sDeadzone);
-    OOT_PSP_CONTROLS_APPEND("n64_stick_scaling = %s\n", sN64StickScalingEnabled ? "on" : "off");
+    OOT_PSP_CONTROLS_APPEND("n64_stick_scaling = %s\n", sN64StickScalingEnabled ? "Activado" : "Desactivado");
 
 #undef OOT_PSP_CONTROLS_APPEND
 
